@@ -1,0 +1,99 @@
+################################################################################
+# JARVIS - Main Configuration
+# All runtime values live here. Use .env for secrets.
+################################################################################
+
+jarvis:
+  name: "JARVIS"
+  version: "0.1.0"
+  debug: false
+
+# ── LLM ───────────────────────────────────────────────────────────────────────
+llm:
+  provider: "ollama"
+  base_url: "http://localhost:11434"
+  model: "llama3.2:1b"          # ~1.3 GB RAM — fits on 4–8 GB systems
+  temperature: 0.7
+  max_tokens: 2048
+  streaming: true
+  timeout: 60          # seconds
+  retry:
+    max_attempts: 3
+    backoff_factor: 2  # exponential backoff
+
+# ── Voice ─────────────────────────────────────────────────────────────────────
+voice:
+  enabled: true
+  stt:
+    engine: "whisper"          # whisper | vosk
+    model_size: "base"         # tiny | base | small | medium | large
+    language: "en"
+    device: "cpu"              # cpu | cuda
+  tts:
+    engine: "pyttsx3"          # pyttsx3 | coqui
+    rate: 155                  # words per minute — JARVIS authoritative pace
+    volume: 1.0
+    voice_id: null             # null = system default
+  wake_word:
+    enabled: true
+    keyword: "jarvis"
+    sensitivity: 0.5           # 0.0 – 1.0
+
+# ── Agent ─────────────────────────────────────────────────────────────────────
+agent:
+  planner_model: "llama3.2:1b"
+  executor_model: "llama3.2:1b"
+  max_iterations: 10
+  timeout: 120                 # seconds per task
+  verbose: false
+
+# ── Memory ────────────────────────────────────────────────────────────────────
+memory:
+  short_term:
+    max_messages: 20           # rolling window
+  long_term:
+    backend: "sqlite"          # sqlite | json
+    db_path: "data/memory.db"
+    embeddings_enabled: false  # requires sentence-transformers
+
+# ── Tools ─────────────────────────────────────────────────────────────────────
+tools:
+  system:
+    enabled: true
+    allow_file_delete: false   # explicit opt-in required
+    allow_shell_exec: false
+  email:
+    enabled: false
+    smtp_host: ""
+    smtp_port: 587
+    use_tls: true
+  git:
+    enabled: true
+  calendar:
+    enabled: false
+
+# ── API Server ────────────────────────────────────────────────────────────────
+api:
+  enabled: true
+  host: "127.0.0.1"
+  port: 8000
+  cors_origins:
+    - "http://localhost:3000"
+
+# ── Logging ───────────────────────────────────────────────────────────────────
+logging:
+  level: "INFO"                # DEBUG | INFO | WARNING | ERROR | CRITICAL
+  format: "json"               # json | pretty
+  log_dir: "logs"
+  max_bytes: 10485760          # 10 MB
+  backup_count: 5
+  audit_log: true              # separate audit trail for actions
+
+# ── Feature Flags ─────────────────────────────────────────────────────────────
+features:
+  voice: true
+  api_server: true
+  long_term_memory: true
+  multi_agent: false           # Phase 3
+  web_automation: false        # requires internet
+  plugin_system: false         # Phase 3

@@ -1,0 +1,53 @@
+# ── Core ──────────────────────────────────────────────────────────────────────
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+
+# ── LLM / Ollama ──────────────────────────────────────────────────────────────
+ollama>=0.2.0            # official Ollama Python client
+httpx>=0.27.0            # async HTTP (used by Ollama client)
+
+# ── Agent Framework ───────────────────────────────────────────────────────────
+langchain>=0.2.0
+langchain-community>=0.2.0
+langchain-ollama>=0.1.0
+
+# ── Voice STT ─────────────────────────────────────────────────────────────────
+openai-whisper>=20231117  # offline Whisper (local)
+sounddevice>=0.4.6        # microphone input
+numpy>=1.26.0             # required by whisper
+
+# ── Voice TTS ─────────────────────────────────────────────────────────────────
+pyttsx3>=2.90             # offline TTS (cross-platform)
+
+# ── Wake Word ─────────────────────────────────────────────────────────────────
+pvporcupine>=3.0.0        # Picovoice Porcupine (requires free API key)
+# Alternative: openwakeword>=0.6.0 (fully free, no key needed)
+
+# ── API Server ────────────────────────────────────────────────────────────────
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.7.0
+
+# ── Memory / Storage ─────────────────────────────────────────────────────────
+# SQLite is stdlib — no extra dep needed
+# Optional: vector embeddings for semantic memory retrieval
+# sentence-transformers>=3.0.0
+# chromadb>=0.5.0
+
+# ── Observability ─────────────────────────────────────────────────────────────
+# Structured logging uses stdlib only — no extra dep
+
+# ── Testing ───────────────────────────────────────────────────────────────────
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+pytest-mock>=3.14.0
+
+# ── System monitoring ─────────────────────────────────────────────────────────
+psutil>=5.9.0
+
+# ── Desktop automation ────────────────────────────────────────────────────────
+pyautogui>=0.9.54         # type text, press hotkeys, GUI automation
+
+# ── Dev / Utilities ───────────────────────────────────────────────────────────
+rich>=13.7.0              # pretty terminal output
+click>=8.1.7              # optional CLI enhancement
